@@ -1,35 +1,43 @@
 <script lang="ts">
 import { RouterView } from "vue-router";
-import ProductCard from "./components/ProductCard.vue";
+import ProductCard, { type IProduct } from "./components/ProductCard.vue";
+
 export default {
   components: {
     ProductCard,
   },
   data() {
     return {
-      product: {
-        id: 1,
-        title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-        price: 109.95,
-        description:
-          "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-        category: "men's clothing",
-        image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-        rating: { rate: 3.9, count: 120 },
-      },
+      products: [] as IProduct[],
     };
   },
   methods: {
+    async getProducts() {
+      await fetch("https://fakestoreapi.com/products")
+        .then((res) => res.json())
+        .then((data: IProduct[]) => (this.products = data));
+    },
     addToCart(id: number) {
       // add to cart implementation
     },
+  },
+  created() {
+    this.getProducts();
   },
 };
 </script>
 
 <template>
-  <ProductCard :product="product" @add-to-cart="addToCart" />
-  <RouterView />
+  <main class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <ProductCard
+      v-for="product in products"
+      :key="product.id"
+      :product="product"
+      @add-to-cart="addToCart"
+      class="border-2 border-gray-200 border-solid"
+    />
+    <RouterView />
+  </main>
 </template>
 
 <style scoped></style>
