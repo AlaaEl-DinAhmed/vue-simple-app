@@ -1,18 +1,18 @@
 import HomeViewVue from "@/views/HomeView.vue";
-import ProductDetails from "@/views/ProductDetailsView.vue";
+import ProductDetailsView from "@/views/ProductDetailsView.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/home",
+      path: "/",
       component: HomeViewVue,
     },
     {
       path: "/product/:id",
       name: "productDetails",
-      component: ProductDetails,
+      component: ProductDetailsView,
     },
   ],
 });
