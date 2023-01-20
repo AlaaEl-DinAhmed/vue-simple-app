@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import ProductDetails from "@/components/ProductDetails.vue";
-import { useSingleProduct } from "@/hooks/useProductDetails";
-import { onMounted } from "vue";
+import { useProductsStore } from "@/stores/products";
+import { onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
-
-const { product, getSingleProduct } = useSingleProduct();
+const store = useProductsStore();
 
 const addToCart = (id: number) => {
-  console.log(id);
   // add to cart implementation
 };
 onMounted(() => {
-  getSingleProduct(+route.params.id);
+  store.getSingleProduct(+route.params.id);
 });
+
+onUnmounted(() => store.$reset());
 </script>
 
 <template>
-  <ProductDetails :product="product" @add-to-cart="addToCart" />
+  <ProductDetails :product="store.singleProduct" @add-to-cart="addToCart" />
 </template>

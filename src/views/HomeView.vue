@@ -1,27 +1,24 @@
 <script lang="ts">
-import ProductCard, { type IProduct } from "../components/ProductCard.vue";
+import { useProductsStore } from "@/stores/products";
+import { mapActions, mapState } from "pinia";
+import ProductCard from "../components/ProductCard.vue";
 
 export default {
   components: {
     ProductCard,
   },
-  data() {
-    return {
-      products: [] as IProduct[],
-    };
-  },
   methods: {
-    async getProducts() {
-      await fetch("https://fakestoreapi.com/products")
-        .then((res) => res.json())
-        .then((data: IProduct[]) => (this.products = data));
-    },
     addToCart(id: number) {
       // add to cart implementation
     },
+    ...mapActions(useProductsStore, ["getProducts"]),
   },
   created() {
     this.getProducts();
+  },
+
+  computed: {
+    ...mapState(useProductsStore, ["products"]),
   },
 };
 </script>
